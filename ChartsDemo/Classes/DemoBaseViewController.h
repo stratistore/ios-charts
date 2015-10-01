@@ -18,6 +18,8 @@
 @protected
     NSArray *months;
     NSArray *parties;
+    NSArray *days;
+    NSArray *weekdays;
 }
 
 @property (nonatomic, strong) IBOutlet UIButton *optionsButton;

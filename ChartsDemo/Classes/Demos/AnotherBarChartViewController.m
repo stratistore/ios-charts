@@ -22,6 +22,9 @@
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
 
+@property (nonatomic, strong) NSString *stringWithBackslash;
+@property (nonatomic, strong) NSMutableArray *BarChartDataAsStrings;
+
 @end
 
 @implementation AnotherBarChartViewController
@@ -29,7 +32,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    self.stringWithBackslash = @"3289,2552,2794,3044,2754,2744,3151,3022,2392,2574,2128,4531,2089,3036,1873,2282,2144,2364,2469,3173,2313,2192,1872,2333,2144,3870,2589,2705";
+    self.stringWithBackslash = @"3289,2552,2794,3044,2754,2744,3151";
+
+
+    self.BarChartDataAsStrings = [NSMutableArray arrayWithArray:[self.stringWithBackslash componentsSeparatedByString:@","]];
+
+
     self.title = @"Another Bar Chart";
     
     self.options = @[
@@ -64,7 +74,7 @@
     
     _chartView.legend.enabled = NO;
     
-    _sliderX.value = 9.0;
+    _sliderX.value = self.BarChartDataAsStrings.count -1; //4.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
 }
@@ -78,14 +88,39 @@
 - (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
+    // yVals = [NSMutableArray  arrayWithObjects:  @1,@2,@3,@4,@5,@6,@7,@8,@9, nil];
+
+        for (int i = 0; i < count; i++)
     {
-        double mult = (range + 1);
-        double val = (double) (arc4random_uniform(mult)) + mult / 3.0;
-        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+
+        NSString *tempSt = self.BarChartDataAsStrings[i];
+        // self.title = tempSt;  CONVERT STRING TO DOUBLE THEN ADD TO VAL.
+        double val = [tempSt doubleValue];//(double) 3.0;
+        //  NSMutableArray *BarChartDataEntry = [[NSMutableArray alloc] init];
+
+        //   BarChartDataEntry = [NSMutableArray arrayWithObjects:val,val,val,val,nil];
+        //[yVals addObject:BarChartDataEntry]
+
+
+
+        //      yVals = [NSMutableArray arrayWithArray:BarChartDataEntry];
+//        double mult = (range + 1);
+//        double val = (double) 3.0;//(arc4random_uniform(mult)) + mult / 3.0;
+         [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+//
+//        val = (double) 2.0;
+//        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:1]];
+//
+//        val = (double) 1.0;
+//        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:2]];
+//
+//        val = (double) 4.0;
+//        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:3]];
+//
+//        val = (double) 5.0;
+//        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:4]];
     }
-    
+
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     for (int i = 0; i < count; i++)
     {
@@ -93,7 +128,7 @@
     }
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
-    set1.colors = ChartColorTemplates.vordiplom;
+    //set1.colors = ChartColorTemplates.colorful;
     set1.drawValuesEnabled = NO;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
