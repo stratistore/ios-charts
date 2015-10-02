@@ -17,4 +17,7 @@
 
 @interface CombinedChartViewController : DemoBaseViewController
 
+// added
+//@property (nonatomic, strong) NSString *chartData1;
+
 @end

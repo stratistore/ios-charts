@@ -66,6 +66,14 @@
 		5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */; };
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
 		D7165E571BBBF1F000F57510 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7165E561BBBF1F000F57510 /* HealthKit.framework */; };
+		D7165E691BBDEEE600F57510 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7165E591BBDEEE600F57510 /* Storyboard.storyboard */; settings = {ASSET_TAGS = (); }; };
+		D7165E6B1BBDEEE600F57510 /* AAPLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D7165E5C1BBDEEE600F57510 /* AAPLAppDelegate.m */; settings = {ASSET_TAGS = (); }; };
+		D7165E6C1BBDEEE600F57510 /* HKHealthStore+AAPLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D7165E5E1BBDEEE600F57510 /* HKHealthStore+AAPLExtensions.m */; settings = {ASSET_TAGS = (); }; };
+		D7165E6D1BBDEEE600F57510 /* AAPLProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7165E601BBDEEE600F57510 /* AAPLProfileViewController.m */; settings = {ASSET_TAGS = (); }; };
+		D7165E6E1BBDEEE600F57510 /* AAPLJournalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7165E621BBDEEE600F57510 /* AAPLJournalViewController.m */; settings = {ASSET_TAGS = (); }; };
+		D7165E6F1BBDEEE600F57510 /* AAPLFoodPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7165E641BBDEEE600F57510 /* AAPLFoodPickerViewController.m */; settings = {ASSET_TAGS = (); }; };
+		D7165E701BBDEEE600F57510 /* AAPLFoodItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D7165E661BBDEEE600F57510 /* AAPLFoodItem.m */; settings = {ASSET_TAGS = (); }; };
+		D7165E711BBDEEE600F57510 /* AAPLEnergyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7165E681BBDEEE600F57510 /* AAPLEnergyViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +192,21 @@
 		5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
 		D7165E561BBBF1F000F57510 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		D7165E581BBBF1F000F57510 /* ChartsDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ChartsDemo.entitlements; sourceTree = "<group>"; };
+		D7165E591BBDEEE600F57510 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		D7165E5B1BBDEEE600F57510 /* AAPLAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLAppDelegate.h; sourceTree = "<group>"; };
+		D7165E5C1BBDEEE600F57510 /* AAPLAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLAppDelegate.m; sourceTree = "<group>"; };
+		D7165E5D1BBDEEE600F57510 /* HKHealthStore+AAPLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HKHealthStore+AAPLExtensions.h"; sourceTree = "<group>"; };
+		D7165E5E1BBDEEE600F57510 /* HKHealthStore+AAPLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HKHealthStore+AAPLExtensions.m"; sourceTree = "<group>"; };
+		D7165E5F1BBDEEE600F57510 /* AAPLProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLProfileViewController.h; sourceTree = "<group>"; };
+		D7165E601BBDEEE600F57510 /* AAPLProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLProfileViewController.m; sourceTree = "<group>"; };
+		D7165E611BBDEEE600F57510 /* AAPLJournalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLJournalViewController.h; sourceTree = "<group>"; };
+		D7165E621BBDEEE600F57510 /* AAPLJournalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLJournalViewController.m; sourceTree = "<group>"; };
+		D7165E631BBDEEE600F57510 /* AAPLFoodPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLFoodPickerViewController.h; sourceTree = "<group>"; };
+		D7165E641BBDEEE600F57510 /* AAPLFoodPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLFoodPickerViewController.m; sourceTree = "<group>"; };
+		D7165E651BBDEEE600F57510 /* AAPLFoodItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLFoodItem.h; sourceTree = "<group>"; };
+		D7165E661BBDEEE600F57510 /* AAPLFoodItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLFoodItem.m; sourceTree = "<group>"; };
+		D7165E671BBDEEE600F57510 /* AAPLEnergyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLEnergyViewController.h; sourceTree = "<group>"; };
+		D7165E681BBDEEE600F57510 /* AAPLEnergyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLEnergyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,10 +251,10 @@
 		5B57BBA61A9B26AA0036A6CC = {
 			isa = PBXGroup;
 			children = (
-				D7165E581BBBF1F000F57510 /* ChartsDemo.entitlements */,
 				D7165E561BBBF1F000F57510 /* HealthKit.framework */,
-				5B57BBB11A9B26AA0036A6CC /* Classes */,
-				5B8EAF2E1AB32E15009697AA /* Resources */,
+				D7165E581BBBF1F000F57510 /* ChartsDemo.entitlements */,
+				D7165E721BBDEF0200F57510 /* Fit */,
+				D7165E771BBDF02D00F57510 /* Charts */,
 				5B57BBB21A9B26AA0036A6CC /* Supporting Files */,
 				5B8EAF321AB32EA0009697AA /* Charts.xcodeproj */,
 				5B57BBB01A9B26AA0036A6CC /* Products */,
@@ -361,6 +384,61 @@
 			path = Demos;
 			sourceTree = "<group>";
 		};
+		D7165E721BBDEF0200F57510 /* Fit */ = {
+			isa = PBXGroup;
+			children = (
+				D7165E591BBDEEE600F57510 /* Storyboard.storyboard */,
+				D7165E5B1BBDEEE600F57510 /* AAPLAppDelegate.h */,
+				D7165E5C1BBDEEE600F57510 /* AAPLAppDelegate.m */,
+				D7165E5D1BBDEEE600F57510 /* HKHealthStore+AAPLExtensions.h */,
+				D7165E5E1BBDEEE600F57510 /* HKHealthStore+AAPLExtensions.m */,
+				D7165E751BBDEFC400F57510 /* Age, Height, Weight */,
+				D7165E741BBDEFB300F57510 /* Journal */,
+				D7165E731BBDEFA400F57510 /* Energy */,
+			);
+			name = Fit;
+			sourceTree = "<group>";
+		};
+		D7165E731BBDEFA400F57510 /* Energy */ = {
+			isa = PBXGroup;
+			children = (
+				D7165E671BBDEEE600F57510 /* AAPLEnergyViewController.h */,
+				D7165E681BBDEEE600F57510 /* AAPLEnergyViewController.m */,
+			);
+			name = Energy;
+			sourceTree = "<group>";
+		};
+		D7165E741BBDEFB300F57510 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				D7165E611BBDEEE600F57510 /* AAPLJournalViewController.h */,
+				D7165E621BBDEEE600F57510 /* AAPLJournalViewController.m */,
+				D7165E631BBDEEE600F57510 /* AAPLFoodPickerViewController.h */,
+				D7165E641BBDEEE600F57510 /* AAPLFoodPickerViewController.m */,
+				D7165E651BBDEEE600F57510 /* AAPLFoodItem.h */,
+				D7165E661BBDEEE600F57510 /* AAPLFoodItem.m */,
+			);
+			name = Journal;
+			sourceTree = "<group>";
+		};
+		D7165E751BBDEFC400F57510 /* Age, Height, Weight */ = {
+			isa = PBXGroup;
+			children = (
+				D7165E5F1BBDEEE600F57510 /* AAPLProfileViewController.h */,
+				D7165E601BBDEEE600F57510 /* AAPLProfileViewController.m */,
+			);
+			name = "Age, Height, Weight";
+			sourceTree = "<group>";
+		};
+		D7165E771BBDF02D00F57510 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				5B57BBB11A9B26AA0036A6CC /* Classes */,
+				5B8EAF2E1AB32E15009697AA /* Resources */,
+			);
+			name = Charts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -467,6 +545,7 @@
 				5BEAED1C1ABBFB340013F194 /* ScatterChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
 				5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */,
+				D7165E691BBDEEE600F57510 /* Storyboard.storyboard in Resources */,
 				5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */,
 				5BDEDC421ABB7F73007D3A60 /* HorizontalBarChartViewController.xib in Resources */,
 				5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */,
@@ -491,20 +570,27 @@
 				5B57BBBB1A9B26AA0036A6CC /* DemoListViewController.m in Sources */,
 				5BD47E651ABB424E008FCEC6 /* BarChartViewController.m in Sources */,
 				5BDEDC471ABB871E007D3A60 /* CombinedChartViewController.m in Sources */,
+				D7165E6D1BBDEEE600F57510 /* AAPLProfileViewController.m in Sources */,
 				5BD8F0741AB89CE500566E05 /* LineChart1ViewController.m in Sources */,
 				5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */,
 				5BEAED251ABC0BE20013F194 /* MultipleBarChartViewController.m in Sources */,
 				5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */,
+				D7165E701BBDEEE600F57510 /* AAPLFoodItem.m in Sources */,
+				D7165E6B1BBDEEE600F57510 /* AAPLAppDelegate.m in Sources */,
+				D7165E711BBDEEE600F57510 /* AAPLEnergyViewController.m in Sources */,
 				55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */,
 				5BD47E5B1ABB0263008FCEC6 /* BalloonMarker.swift in Sources */,
 				5BEAED2C1ABC160F0013F194 /* CandleStickChartViewController.m in Sources */,
 				5BEAED271ABC0BE20013F194 /* MultipleLinesChartViewController.m in Sources */,
+				D7165E6F1BBDEEE600F57510 /* AAPLFoodPickerViewController.m in Sources */,
 				5B8EAF281AB32CF5009697AA /* DemoBaseViewController.m in Sources */,
 				5BEAED3B1ABC199F0013F194 /* ColoredLineChartViewController.m in Sources */,
+				D7165E6C1BBDEEE600F57510 /* HKHealthStore+AAPLExtensions.m in Sources */,
 				5BDEDC411ABB7F73007D3A60 /* HorizontalBarChartViewController.m in Sources */,
 				5BEAED121ABBFB2B0013F194 /* AnotherBarChartViewController.m in Sources */,
 				5BEAED311ABC18F00013F194 /* CubicLineChartViewController.m in Sources */,
 				5BEAED1D1ABBFB340013F194 /* StackedBarChartViewController.m in Sources */,
+				D7165E6E1BBDEEE600F57510 /* AAPLJournalViewController.m in Sources */,
 				5BD47E601ABB3C91008FCEC6 /* LineChart2ViewController.m in Sources */,
 				5B57BBB51A9B26AA0036A6CC /* main.m in Sources */,
 				5BEAED361ABC192F0013F194 /* RadarChartViewController.m in Sources */,
@@ -611,6 +697,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cef.ChartsDemo;
 				PRODUCT_NAME = ChartsDemo;
@@ -631,6 +718,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cef.ChartsDemo;
 				PRODUCT_NAME = ChartsDemo;

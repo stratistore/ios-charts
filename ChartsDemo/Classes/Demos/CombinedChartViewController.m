@@ -20,6 +20,11 @@
 
 @property (nonatomic, strong) IBOutlet CombinedChartView *chartView;
 
+// added
+//@property (nonatomic, strong) NSString *chartData1;
+
+
+
 @end
 
 @implementation CombinedChartViewController
@@ -27,7 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.title = @"Combined Chart";
     
     self.options = @[
@@ -121,6 +126,23 @@
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
+
+//        // Do any additional setup after loading the view.
+//        AAPLEnergyViewController *svc = [self.tabBarController.viewControllers objectAtIndex:2];
+//
+//        svc.delegate = self;
+//
+//
+//
+
+
+
+
+
+
+
+        //NSString *stringWithBackslash = svc.chartData1; //
+
         NSString *stringWithBackslash = @"273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,267,273,273,273,273,400";
 
 

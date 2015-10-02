@@ -10,28 +10,60 @@
 //
 //  https://github.com/danielgindi/ios-charts
 //
+//#import "AAPLAppDelegate.h"
+#import "AAPLProfileViewController.h"
+#import "AAPLJournalViewController.h"
+#import "AAPLEnergyViewController.h"
+@import HealthKit;
+
 
 #import "AppDelegate.h"
 #import "DemoListViewController.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic) HKHealthStore *healthStore;
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate  //AAPLAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    DemoListViewController *vc = [[DemoListViewController alloc] init];
-    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
-    
-    _window.rootViewController = nvc;
-    [_window makeKeyAndVisible];
-    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.healthStore = [[HKHealthStore alloc] init];
+
+    [self setUpHealthStoreForTabBarControllers];
+
     return YES;
 }
+
+
+
+
+- (void)setUpHealthStoreForTabBarControllers {
+    UITabBarController *tabBarController = (UITabBarController *)[self.window rootViewController];
+
+    for (UINavigationController *navigationController in tabBarController.viewControllers) {
+        id viewController = navigationController.topViewController;
+
+        if ([viewController respondsToSelector:@selector(setHealthStore:)]) {
+            [viewController setHealthStore:self.healthStore];
+        }
+    }
+}
+
+
+//@implementation AppDelegate
+//
+//- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+//{
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//
+//    DemoListViewController *vc = [[DemoListViewController alloc] init];
+//    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+//
+//    _window.rootViewController = nvc;
+//    [_window makeKeyAndVisible];
+//
+//    return YES;
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
