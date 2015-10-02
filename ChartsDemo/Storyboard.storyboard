@@ -274,7 +274,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Wl9-Ch-SlP" kind="push" id="MfQ-UA-Coy"/>
+                                            <segue destination="Wl9-Ch-SlP" kind="push" identifier="showEnergyDetail" id="MfQ-UA-Coy"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="Fnm-Aq-jiB" detailTextLabel="RYU-P7-uS9" style="IBUITableViewCellStyleValue1" id="SNB-gW-ngF">

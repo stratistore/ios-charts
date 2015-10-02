@@ -12,8 +12,8 @@
 #import "HKHealthStore+AAPLExtensions.h"
 
 // import the chart controller here
-// then - define a STRING *(ChartData1) as a property of that object
-// Call the ChartData1 object and add each item to it with a ',' seperating to make CSV.
+// then - define a STRING *(weightData) as a property of that object
+// Create and Pass the weightData object and add each item to it with a ',' seperating to make CSV.
 #import "CombinedChartViewController.h"
 
 
@@ -35,6 +35,15 @@
 @property (nonatomic) double netEnergy;
 @property (nonatomic) double stepsCounted;
 @property (nonatomic) NSString *stepsExplained;
+
+#pragma mark - Data Passed Variables
+@property (nonatomic) NSString *weightData;
+@property (nonatomic) NSString *activeCaloriesData;
+@property (nonatomic) NSString *restingCaloriesData;
+@property (nonatomic) NSString *totalCaloriesData;
+@property (nonatomic) NSString *netCaloriesData;
+@property (nonatomic) NSString *consumedCaloriesData;
+@property (nonatomic) NSString *stepData;
 
 
 @end
@@ -60,6 +69,11 @@
 #pragma mark - Reading HealthKit Data
 
 - (void)refreshStatistics {
+
+    self.consumedCaloriesData = @"consumedCaloriesData";
+    self.weightData = @"weightData";
+    
+
     [self.refreshControl beginRefreshing];
     
     HKQuantityType *energyConsumedType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryEnergyConsumed];
@@ -221,7 +235,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
              NSDate *date = result.startDate;
              double value = [quantity doubleValueForUnit:[HKUnit countUnit]];
              NSLog(@"Step B - Plot the results");
-             [self plotData:value forDate:date samplesPerSet:interval];
+             [self plotData:value forDate:date samplesPerSet:interval dataType:@"consumedCaloriesData"];
          }
 
      }];
@@ -299,7 +313,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
                  NSDate *date = result.startDate;
                  double value = [quantity doubleValueForUnit:[HKUnit countUnit]];
                  NSLog(@"Step 5 - Plot the results");
-                 [self plotData:value forDate:date samplesPerSet:sampleInterval];
+                 [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"consumedCaloriesData"];
              }
              
          }];
@@ -380,7 +394,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
                  NSDate *date = result.startDate;
                  double value = [quantity doubleValueForUnit:[HKUnit countUnit]];
                  NSLog(@"Step 3.5 - Plot the results");
-                 [self plotData:value forDate:date samplesPerSet:sampleInterval];
+                 [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"consumedCaloriesData"];
              }
              
          }];
@@ -433,7 +447,8 @@ NSLog(@"GetPlotData 2 - E in block 2");
                                            NSLog(@"FUNCT 4 - %@: %.f Active Cals - %.02f", date, value, self.activeEnergyBurned/4184);
 
 
-                                           //CombinedChartViewController.chartData1 = @"123,222,123,222,123,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,267,273,273,273,273,400";
+
+                                           // self.weightData = @"123,222,123,222,123,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,267,273,273,273,273,400";
                                        }
                                        
                                    }];
@@ -442,8 +457,21 @@ NSLog(@"GetPlotData 2 - E in block 2");
     [self.healthStore executeQuery:query];
 
 }
-- (void)plotData:(double)valueToPlot forDate:(NSDate *)dateForValue samplesPerSet:(int)numSamples  {
 
+
+
+
+#pragma mark - Plot Data
+- (void)plotData:(double)valueToPlot forDate:(NSDate *)dateForValue samplesPerSet:(int)numSamples dataType:(NSString *)dataType  {
+
+if ([dataType isEqualToString:@"consumedCaloriesData"])
+{
+    self.consumedCaloriesData = [self.consumedCaloriesData   stringByAppendingString:[NSString stringWithFormat:@",%.f", valueToPlot]];
+}
+else if ([dataType isEqualToString:@"weightData"])
+{
+    self.weightData = [self.weightData   stringByAppendingString:[NSString stringWithFormat:@",%.f", valueToPlot]];
+}
 
     NSLog (@"PlotData Entered %@ - %.f (Average - %.f)", dateForValue,valueToPlot,valueToPlot/numSamples);
 //    %f = 25.000000
@@ -452,6 +480,34 @@ NSLog(@"GetPlotData 2 - E in block 2");
 
 }
 
+#pragma mark - Pass Data
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showEnergyDetail"]) {
+        //  NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        CombinedChartViewController *destViewController = segue.destinationViewController;
+self.weightData = @"weightData,333,222,123,222,123,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,267,273,273,273,273,400";
+
+        destViewController.weightData =  self.weightData;
+
+        destViewController.activeCaloriesData  =  self.weightData;
+
+        destViewController.restingCaloriesData =  self.weightData;
+
+        destViewController.totalCaloriesData =  self.weightData;
+
+        destViewController.netCaloriesData =  self.weightData;
+
+        NSLog(@"consumedCaloriesData - %@",self.consumedCaloriesData);
+
+        destViewController.consumedCaloriesData =  self.consumedCaloriesData;
+
+        destViewController.stepData =  self.weightData;
+
+
+    }
+}
+
+#pragma mark - Calc by Measurements
 // Calculates the user's total basal (resting) energy burn based off of their height, weight, age,
 // and biological sex. If there is not enough information, return an error.
 - (void)fetchTotalBasalBurn:(void(^)(HKQuantity *basalEnergyBurn, NSError *error))completion {

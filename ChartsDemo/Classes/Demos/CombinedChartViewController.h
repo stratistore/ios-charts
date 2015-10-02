@@ -18,6 +18,14 @@
 @interface CombinedChartViewController : DemoBaseViewController
 
 // added
-//@property (nonatomic, strong) NSString *chartData1;
+//@property (nonatomic, strong) NSString *weightData;
+#pragma mark - Data Received Variables
+@property (nonatomic) NSString *weightData;
+@property (nonatomic) NSString *activeCaloriesData;
+@property (nonatomic) NSString *restingCaloriesData;
+@property (nonatomic) NSString *totalCaloriesData;
+@property (nonatomic) NSString *netCaloriesData;
+@property (nonatomic) NSString *consumedCaloriesData;
+@property (nonatomic) NSString *stepData;
 
 @end

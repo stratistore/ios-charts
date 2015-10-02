@@ -20,18 +20,37 @@
 
 @property (nonatomic, strong) IBOutlet CombinedChartView *chartView;
 
-// added
-//@property (nonatomic, strong) NSString *chartData1;
-
-
 
 @end
 
 @implementation CombinedChartViewController
 
+#pragma mark - Data Received Variables
+@synthesize weightData;
+@synthesize activeCaloriesData;
+@synthesize restingCaloriesData;
+@synthesize totalCaloriesData;
+@synthesize netCaloriesData;
+@synthesize consumedCaloriesData;
+@synthesize stepData;
+
+#pragma mark - LifeCycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    NSLog (@"weightData passed as - %@",self.weightData);
+    NSLog (@"activeCaloriesData passed as - %@",self.activeCaloriesData);
+    NSLog (@"restingCaloriesData passed as - %@",self.restingCaloriesData);
+    NSLog (@"totalCaloriesData passed as - %@",self.totalCaloriesData);
+    NSLog (@"netCaloriesData passed as - %@",self.netCaloriesData);
+    NSLog (@"consumedCaloriesData passed as - %@",self.consumedCaloriesData);
+    NSLog (@"stepData passed as - %@",self.stepData);
+
+
+
+
+
 
     self.title = @"Combined Chart";
     
@@ -82,6 +101,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Tapping Chart Element
 - (void)optionTapped:(NSString *)key
 {
     if ([key isEqualToString:@"toggleLineValues"])
@@ -136,14 +156,16 @@
 //
 
 
+        //Trim String Type from Passed Data
+        NSString *myString = weightData;
+        NSString * newString = [myString stringByReplacingOccurrencesOfString:@"weightData," withString:@""];
 
 
 
 
+        NSString *stringWithBackslash = newString;
 
-        //NSString *stringWithBackslash = svc.chartData1; //
-
-        NSString *stringWithBackslash = @"273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,267,273,273,273,273,400";
+        //  NSString *stringWithBackslash = @"273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,267,273,273,273,273,400";
 
 
         NSMutableArray *BarChartDataAsStrings = [NSMutableArray arrayWithArray:[ stringWithBackslash componentsSeparatedByString:@","]];
@@ -179,7 +201,7 @@
 }
 
 
-#pragma mark - [Cal Burnt] BarChartData
+#pragma mark - [totalCaloriesData] BarChartData
 - (BarChartData *)generateBarData
 {
     BarChartData *d = [[BarChartData alloc] init];
@@ -188,7 +210,8 @@
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-       NSString *stringWithBackslash = @"3887,3298,3524,3022,4556,3755,4634,5146,4864,4863,5208,3992,5481,4446,3967,4675,4322,4449,4928,3900,3608,4290,4673,3201,3604,4449,3634,3339,2414,3201,3604,4449,3634,3339,2414";
+        NSString *stringWithBackslash = totalCaloriesData;
+        //@"3887,3298,3524,3022,4556,3755,4634,5146,4864,4863,5208,3992,5481,4446,3967,4675,4322,4449,4928,3900,3608,4290,4673,3201,3604,4449,3634,3339,2414,3201,3604,4449,3634,3339,2414";
         NSMutableArray *BarChartDataAsStrings = [NSMutableArray arrayWithArray:[ stringWithBackslash componentsSeparatedByString:@","]];
 
 
@@ -275,18 +298,23 @@
     return d;
 }
 
-#pragma mark - [Cal In] BubbleChartData
+#pragma mark - [consumedCaloriesData] BubbleChartData
 - (BubbleChartData *)generateBubbleData
 {
     BubbleChartData *bd = [[BubbleChartData alloc] init];
     
     NSMutableArray *entries = [[NSMutableArray alloc] init];
-    
+
+
+    //Trim String Type from Passed Data
+    NSString *myString = consumedCaloriesData;
+    NSString * stringWithBackslash = [myString stringByReplacingOccurrencesOfString:@"consumedCaloriesData," withString:@""];
+
+    // NSLog(@"%@ REMOVED TYPE",stringWithBackslash);
+
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-        //NSString *stringWithBackslash = @"3887,3298,3524,3022,4556,3755,4634,5146,4864,4863,5208,3992,5481,4446,3967,4675,4322,4449,4928,3900,3608,4290,4673,3201,3604,4449,3634,3339,2414";
-        NSString *stringWithBackslash = @"2552,2794,3044,2754,2744,3151,3234,2552,2794,3044,2754,2744,3151,2552,2794,3044,2754,2744,3151,3234,2552,2794,3044,2754,2744,3151,2552,2794,3044,2754,2744,3151";
-        
+
 
 
         NSMutableArray *BarChartDataAsStrings = [NSMutableArray arrayWithArray:[ stringWithBackslash componentsSeparatedByString:@","]];
