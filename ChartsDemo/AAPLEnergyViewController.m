@@ -72,6 +72,7 @@
 
     self.consumedCaloriesData = @"consumedCaloriesData";
     self.weightData = @"weightData";
+    self.restingCaloriesData = @"restingCaloriesData";
     
 
     [self.refreshControl beginRefreshing];
@@ -322,6 +323,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
     self.getPlotData3;
 }
 
+#pragma mark - Get Step Data
 - (void) getPlotData3 {
 
     NSLog (@"getPlotData 3 Entered");
@@ -394,15 +396,99 @@ NSLog(@"GetPlotData 2 - E in block 2");
                  NSDate *date = result.startDate;
                  double value = [quantity doubleValueForUnit:[HKUnit countUnit]];
                  NSLog(@"Step 3.5 - Plot the results");
-                 [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"consumedCaloriesData"];
+                 [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"stepCountData"];
              }
              
+         }];
+    };
+    [self.healthStore executeQuery:query];
+    self.getRestingCalories;
+}
+
+#pragma mark - Get Resting Calories Data
+- (void) getRestingCalories {
+
+    NSLog (@"getPlotData 3 Entered");
+    int sampleInterval = 24;
+
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *interval = [[NSDateComponents alloc] init];
+    interval.day = 1;
+
+    // Set the anchor date to Monday at 3:00 a.m.
+    NSDateComponents *anchorComponents =
+    [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth |
+     NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:[NSDate date]];
+
+    NSInteger offset = (7 + anchorComponents.weekday - 2) % 7;
+    anchorComponents.day -= offset;
+    anchorComponents.hour = -0; // set to midnight (-7)
+
+    NSDate *anchorDate = [calendar dateFromComponents:anchorComponents];
+
+
+    HKQuantityType *quantityType =
+    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalEnergyBurned];
+
+
+    NSLog(@"Step restingCaloriesData - Create the query");// Create the query
+    HKStatisticsCollectionQuery *query =
+    [[HKStatisticsCollectionQuery alloc]
+     initWithQuantityType:quantityType
+     quantitySamplePredicate:nil
+     options:HKStatisticsOptionCumulativeSum
+     anchorDate:anchorDate
+     intervalComponents:interval];
+
+
+    NSLog(@"Step restingCaloriesData - Set the results handler");// Set the results handler
+    query.initialResultsHandler =
+    ^(HKStatisticsCollectionQuery *query, HKStatisticsCollection *results, NSError *error) {
+
+        NSLog(@"Step restingCaloriesData - Check for errors");
+        if (error) {
+            // Perform proper error handling here
+            NSLog(@"*** An error occurred while calculating the statistics: %@ ***",
+                  error.localizedDescription);
+            abort();
+        }
+
+        NSDate *todaysDate = [NSDate date];
+        NSDate *endDate = [calendar
+                           dateByAddingUnit:NSCalendarUnitDay
+                           value:-5
+                           toDate:todaysDate
+                           options:0];
+        NSDate *startDate = [calendar
+                             dateByAddingUnit:NSCalendarUnitDay
+                             value:-6
+                             toDate:endDate
+                             options:0];
+
+        NSLog(@"Step restingCaloriesData  "); //Plot the weekly step counts over the past 3 months
+        [results
+         enumerateStatisticsFromDate:startDate
+         toDate:endDate
+         withBlock:^(HKStatistics *result, BOOL *stop) {
+
+
+
+             HKQuantity *quantity = result.sumQuantity;
+             if (quantity) {
+                 NSDate *date = result.startDate;
+                 double value = [quantity doubleValueForUnit:[HKUnit jouleUnit]];
+                 NSLog(@"Step restingCaloriesData - Plot the results");
+                 [self plotData:value/4184 forDate:date samplesPerSet:sampleInterval dataType:@"restingCaloriesData"];
+             }
+
          }];
     };
     [self.healthStore executeQuery:query];
     self.getPlotData4;
 }
 
+
+#pragma mark - Get Step Count (by Day)
 - (void)getPlotData4
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -472,6 +558,10 @@ else if ([dataType isEqualToString:@"weightData"])
 {
     self.weightData = [self.weightData   stringByAppendingString:[NSString stringWithFormat:@",%.f", valueToPlot]];
 }
+else if ([dataType isEqualToString:@"restingCaloriesData"])
+{
+    self.restingCaloriesData = [self.restingCaloriesData   stringByAppendingString:[NSString stringWithFormat:@",%.f", valueToPlot]];
+}
 
     NSLog (@"PlotData Entered %@ - %.f (Average - %.f)", dateForValue,valueToPlot,valueToPlot/numSamples);
 //    %f = 25.000000
@@ -491,7 +581,7 @@ self.weightData = @"weightData,333,222,123,222,123,273,271,271,273,271,270,269,2
 
         destViewController.activeCaloriesData  =  self.weightData;
 
-        destViewController.restingCaloriesData =  self.weightData;
+        destViewController.restingCaloriesData =  self.restingCaloriesData;
 
         destViewController.totalCaloriesData =  self.weightData;
 
