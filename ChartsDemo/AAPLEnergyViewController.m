@@ -161,6 +161,7 @@
     [self.healthStore executeQuery:query];
 }
 
+#pragma mark - Step Count (by)
 - (void)getPlotData2{
     NSLog (@"GetPlotData 2 - A Entered");
 NSDate *fromDate, *toDate, *startDate, *endDate, *anchorDate; // Whatever you need in your case
@@ -246,7 +247,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
 }
 
 
-
+#pragma mark - Step Count (by)
 - (void)getPlotData{
 
     NSLog (@"getPlotData Entered");
@@ -314,7 +315,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
                  NSDate *date = result.startDate;
                  double value = [quantity doubleValueForUnit:[HKUnit countUnit]];
                  NSLog(@"Step 5 - Plot the results");
-                 [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"consumedCaloriesData"];
+                 [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"stepCountTEST"];
              }
              
          }];
@@ -484,9 +485,91 @@ NSLog(@"GetPlotData 2 - E in block 2");
          }];
     };
     [self.healthStore executeQuery:query];
-    self.getPlotData4;
+    self.getConsumedCalories;
 }
 
+
+#pragma mark - Get Consumed Calories (1 Week)
+- (void)getConsumedCalories{
+
+    NSLog (@"getPlotData 3 Entered");
+    int sampleInterval = 24;
+
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *interval = [[NSDateComponents alloc] init];
+    interval.day = 1;
+
+    // Set the anchor date to Monday at 3:00 a.m.
+    NSDateComponents *anchorComponents =
+    [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth |
+     NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:[NSDate date]];
+
+    NSInteger offset = (7 + anchorComponents.weekday - 2) % 7;
+    anchorComponents.day -= offset;
+    anchorComponents.hour = -0; // set to midnight (-7)
+
+    NSDate *anchorDate = [calendar dateFromComponents:anchorComponents];
+
+
+    HKQuantityType *quantityType =
+    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryEnergyConsumed];
+
+
+    NSLog(@"Step consumedCaloriesData - Create the query");// Create the query
+    HKStatisticsCollectionQuery *query =
+    [[HKStatisticsCollectionQuery alloc]
+     initWithQuantityType:quantityType
+     quantitySamplePredicate:nil
+     options:HKStatisticsOptionCumulativeSum
+     anchorDate:anchorDate
+     intervalComponents:interval];
+
+
+    NSLog(@"Step consumedCaloriesData - Set the results handler");// Set the results handler
+    query.initialResultsHandler =
+    ^(HKStatisticsCollectionQuery *query, HKStatisticsCollection *results, NSError *error) {
+
+        NSLog(@"Step consumedCaloriesData - Check for errors");
+        if (error) {
+            // Perform proper error handling here
+            NSLog(@"*** An error occurred while calculating the statistics: %@ ***",
+                  error.localizedDescription);
+            abort();
+        }
+
+        NSDate *todaysDate = [NSDate date];
+        NSDate *endDate = [calendar
+                           dateByAddingUnit:NSCalendarUnitDay
+                           value:-5
+                           toDate:todaysDate
+                           options:0];
+        NSDate *startDate = [calendar
+                             dateByAddingUnit:NSCalendarUnitDay
+                             value:-6
+                             toDate:endDate
+                             options:0];
+
+        NSLog(@"Step consumedCaloriesData  "); //Plot the weekly step counts over the past 3 months
+        [results
+         enumerateStatisticsFromDate:startDate
+         toDate:endDate
+         withBlock:^(HKStatistics *result, BOOL *stop) {
+
+
+
+             HKQuantity *quantity = result.sumQuantity;
+             if (quantity) {
+                 NSDate *date = result.startDate;
+                 double value = [quantity doubleValueForUnit:[HKUnit jouleUnit]];
+                 NSLog(@"Step consumedCaloriesData - Plot the results");
+                 [self plotData:value/4184 forDate:date samplesPerSet:sampleInterval dataType:@"consumedCaloriesData"];
+             }
+             
+         }];
+    };
+    [self.healthStore executeQuery:query];
+    self.getPlotData4;
+}
 
 #pragma mark - Get Step Count (by Day)
 - (void)getPlotData4

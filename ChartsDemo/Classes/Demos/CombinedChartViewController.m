@@ -47,6 +47,19 @@
     NSLog (@"consumedCaloriesData passed as - %@",self.consumedCaloriesData);
     NSLog (@"stepData passed as - %@",self.stepData);
 
+    // Cleanup Strings Passed - Remove Type
+    //Trim String Type from Passed Data
+    //NSString *myString = weightData;
+    consumedCaloriesData = [consumedCaloriesData stringByReplacingOccurrencesOfString:@"consumedCaloriesData," withString:@""];
+    restingCaloriesData = [restingCaloriesData stringByReplacingOccurrencesOfString:@"restingCaloriesData," withString:@""];
+
+    NSLog (@"weightData passed as - %@",self.weightData);
+    NSLog (@"activeCaloriesData passed as - %@",self.activeCaloriesData);
+    NSLog (@"restingCaloriesData passed as - %@",self.restingCaloriesData);
+    NSLog (@"totalCaloriesData passed as - %@",self.totalCaloriesData);
+    NSLog (@"netCaloriesData passed as - %@",self.netCaloriesData);
+    NSLog (@"consumedCaloriesData passed as - %@",self.consumedCaloriesData);
+    NSLog (@"stepData passed as - %@",self.stepData);
 
 
 
@@ -210,7 +223,7 @@
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-        NSString *stringWithBackslash = totalCaloriesData;
+        NSString *stringWithBackslash = consumedCaloriesData;//totalCaloriesData;
         //@"3887,3298,3524,3022,4556,3755,4634,5146,4864,4863,5208,3992,5481,4446,3967,4675,4322,4449,4928,3900,3608,4290,4673,3201,3604,4449,3634,3339,2414,3201,3604,4449,3634,3339,2414";
         NSMutableArray *BarChartDataAsStrings = [NSMutableArray arrayWithArray:[ stringWithBackslash componentsSeparatedByString:@","]];
 
@@ -234,7 +247,7 @@
     return d;
 }
 
-#pragma mark - [Cal Delta] ScatterChartData
+#pragma mark - [Resting Calories] ScatterChartData
 - (ScatterChartData *)generateScatterData
 {
     ScatterChartData *d = [[ScatterChartData alloc] init];
@@ -245,7 +258,8 @@
     {
         // [entries addObject:[[ChartDataEntry alloc] initWithValue:(arc4random_uniform(20) + 15) xIndex:index]];
 
-        NSString *stringWithBackslash = @"598,746,730,-22,1802,1011,1483,2124,2472,2289,3080,-539,3392,1410,2094,2393,2178,2085,2459,727,1295,2098,2801,868,1460,579,1045,634,2414,1460,579,1045,634,2414";
+        NSString *stringWithBackslash = restingCaloriesData;
+        //@"598,746,730,-22,1802,1011,1483,2124,2472,2289,3080,-539,3392,1410,2094,2393,2178,2085,2459,727,1295,2098,2801,868,1460,579,1045,634,2414,1460,579,1045,634,2414";
         //@"3289,2552,2794,3044,2754,2744,3151,1234,2552,2794,3044,2754,2744,3151,1234";
 
 
