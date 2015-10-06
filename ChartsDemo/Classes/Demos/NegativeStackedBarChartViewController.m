@@ -12,7 +12,7 @@
 //
 
 #import "NegativeStackedBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "MyProject-Swift.h" //"ChartsDemo-Swift.h"
 
 @interface NegativeStackedBarChartViewController () <ChartViewDelegate>
 

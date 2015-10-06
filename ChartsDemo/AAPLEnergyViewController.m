@@ -347,7 +347,8 @@ NSLog(@"GetPlotData 2 - E in block 2");
 
 
     HKQuantityType *quantityType =
-    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
+      [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
+    //[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
 
 
     NSLog(@"Step 3.1 - Create the query");// Create the query
@@ -355,7 +356,9 @@ NSLog(@"GetPlotData 2 - E in block 2");
     [[HKStatisticsCollectionQuery alloc]
      initWithQuantityType:quantityType
      quantitySamplePredicate:nil
-     options:HKStatisticsOptionCumulativeSum
+       options:HKStatisticsOptionCumulativeSum
+     //  options:HKStatisticsOptionDiscreteAverage //HKStatisticsOptionCumulativeSum
+
      anchorDate:anchorDate
      intervalComponents:interval];
 
@@ -375,7 +378,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
         NSDate *todaysDate = [NSDate date];
         NSDate *endDate = [calendar
                              dateByAddingUnit:NSCalendarUnitDay
-                             value:-5
+                             value:-0
                              toDate:todaysDate
                              options:0];
         NSDate *startDate = [calendar
@@ -391,19 +394,130 @@ NSLog(@"GetPlotData 2 - E in block 2");
          withBlock:^(HKStatistics *result, BOOL *stop) {
 
 
-
              HKQuantity *quantity = result.sumQuantity;
-             if (quantity) {
+
+             NSLog (@"%@",[quantity description]);
+               if (quantity) {
                  NSDate *date = result.startDate;
                  double value = [quantity doubleValueForUnit:[HKUnit countUnit]];
-                 NSLog(@"Step 3.5 - Plot the results");
+                 NSLog(@"Step 3.5 - Plot the results %.f",value);
                  [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"stepCountData"];
              }
              
          }];
     };
     [self.healthStore executeQuery:query];
-    self.getRestingCalories;
+    self.HRTest;
+}
+
+- (void) HRTest
+{
+    HKQuantityType *cumulativeActiveEnergyBurned =
+    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned];
+
+    HKQuantityType *discreteHeartRate =
+    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
+
+    // Cannot combine cumulative options with discrete options.
+    // However, you can combine a cumulative option and seperated by source
+    HKStatisticsQuery *cumulativeQuery =
+    [[HKStatisticsQuery alloc]
+     initWithQuantityType:cumulativeActiveEnergyBurned
+     quantitySamplePredicate:nil
+     options:HKStatisticsOptionCumulativeSum | HKStatisticsOptionSeparateBySource
+     completionHandler:^(HKStatisticsQuery *query, HKStatistics *result, NSError *error) {
+
+         // ... process the results here
+
+         HKQuantity *quantity = result.sumQuantity;
+         // HKQuantity *sumCalQuantityForSource = [result.sumQuantity  result.sources[0]];
+
+         //      HKQuantity *sumCalQuantityForSource =  result.sumQuantityForSource(result.sources[0]);
+
+         if (quantity) {
+             NSDate *startDate = result.startDate;
+             NSDate *endDate = result.endDate;
+             NSString *sources = [result.sources description];
+
+             int i = 0;
+             for (i=0; i< result.sources.count; i++)
+             {
+                 NSString *product = [result.sources[i].name description];
+                 NSString *bundleID = [result.sources[i].bundleIdentifier description];
+                 double value = [quantity doubleValueForUnit:[HKUnit kilocalorieUnit]];
+                 NSLog(@"HR - Plot the results \n%@ \n%@ \n%.f \n %@ \n%@ \n%@ \n\n ",[startDate description],[endDate description],value, sources, product ,bundleID);
+             }
+
+             // [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"stepCountTEST"];
+         }
+
+
+       }];
+    [self.healthStore executeQuery:cumulativeQuery];
+
+
+    // You can also combine any number of discrete options
+    // and the seperated by source option.
+    HKStatisticsQuery *discreteQuery =
+    [[HKStatisticsQuery alloc]
+     initWithQuantityType:discreteHeartRate
+     quantitySamplePredicate:nil
+     options:HKStatisticsOptionDiscreteAverage | HKStatisticsOptionDiscreteMin |
+     HKStatisticsOptionDiscreteMax | HKStatisticsOptionSeparateBySource
+     completionHandler:^(HKStatisticsQuery *query, HKStatistics *results, NSError *error) {
+
+         // ... process the results here
+         double avgHB = [results.averageQuantity doubleValueForUnit :[HKUnit unitFromString:@"count/min"]];  //
+         double minHB = [results.minimumQuantity doubleValueForUnit :[HKUnit unitFromString:@"count/min"]];  //
+         double maxHB = [results.maximumQuantity doubleValueForUnit :[HKUnit unitFromString:@"count/min"]];  //[(HKUnit.init(fromString: "count/sec")*60)]]; //:[HKUnit countUnit]];
+                                   // double totalCalories =  (results.maximumQuantity.doubleValueForUnit(HKUnit.init(fromString: "count/s"))*60);
+         // get results
+         NSLog (@"HR ---------- %.f  %.f  %.f", maxHB, minHB ,avgHB);//(HKQuantity *)maximumQuantity);
+
+         //enumerate
+         // set start end dates for emumeration
+//         NSCalendar *calendar = [NSCalendar currentCalendar];
+//         NSDateComponents *interval = [[NSDateComponents alloc] init];
+//         interval.day = 1;
+//
+//
+//         NSDate *todaysDate = [NSDate date];
+//         NSDate *endDate = [calendar
+//                            dateByAddingUnit:NSCalendarUnitDay
+//                            value:-0
+//                            toDate:todaysDate
+//                            options:0];
+//         NSDate *startDate = [calendar
+//                              dateByAddingUnit:NSCalendarUnitDay
+//                              value:-6
+//                              toDate:endDate
+//                              options:0];
+
+//         [results
+//          enumerateStatisticsFromDate:startDate
+//          toDate:endDate
+//          withBlock:^(HKStatistics *result, BOOL *stop) {
+//              
+//
+//
+//              HKQuantity *quantity = result.sumQuantity;
+//
+//              NSLog (@"%@",[quantity description]);
+//              if (quantity) {
+//                  NSDate *date = result.startDate;
+//                  double value = [quantity doubleValueForUnit:[HKUnit countUnit]];
+//                  NSLog(@"Step 2HRTEST -------------- %.f",value);
+//                  //  [self plotData:value forDate:date samplesPerSet:sampleInterval dataType:@"replace"];
+//              }
+//
+//
+//          }
+//         //end enum
+//     ];
+     }];
+ [self.healthStore executeQuery:discreteQuery];
+
+    //  self.getRestingCalories;
 }
 
 #pragma mark - Get Resting Calories Data
@@ -457,7 +571,7 @@ NSLog(@"GetPlotData 2 - E in block 2");
         NSDate *todaysDate = [NSDate date];
         NSDate *endDate = [calendar
                            dateByAddingUnit:NSCalendarUnitDay
-                           value:-5
+                           value:-0
                            toDate:todaysDate
                            options:0];
         NSDate *startDate = [calendar
@@ -624,10 +738,32 @@ NSLog(@"GetPlotData 2 - E in block 2");
     };
     
     [self.healthStore executeQuery:query];
+    self.queryHealthDataHeart;
 
 }
 
+#pragma mark HeartRate Sample (future)
+- (void)queryHealthDataHeart{
+    HKQuantityType *typeHeart =[HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay
+                                               fromDate:now];
+    NSDate *beginOfDay = [calendar dateFromComponents:components];
+    NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:beginOfDay endDate:now options:HKQueryOptionStrictStartDate];
 
+    HKStatisticsQuery *squery = [[HKStatisticsQuery alloc] initWithQuantityType:typeHeart quantitySamplePredicate:predicate options:HKStatisticsOptionNone completionHandler:^(HKStatisticsQuery *query, HKStatistics *result, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            HKQuantity *quantity = result.averageQuantity;
+            double beats = [quantity doubleValueForUnit:[HKUnit countUnit]];
+            // _lblHeart.text = [NSString stringWithFormat:@"%.f",beats];
+
+            NSLog (@"******************* HB ******************** %.f",beats);
+        }
+                       );
+    }];
+    [self.healthStore executeQuery:squery];
+}
 
 
 #pragma mark - Plot Data

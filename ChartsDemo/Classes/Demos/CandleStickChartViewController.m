@@ -12,8 +12,7 @@
 //
 
 #import "CandleStickChartViewController.h"
-#import "ChartsDemo-Swift.h"
-
+#import "MyProject-Swift.h" //"ChartsDemo-Swift.h"
 @interface CandleStickChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet CandleStickChartView *chartView;

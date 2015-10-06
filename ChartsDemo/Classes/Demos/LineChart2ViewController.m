@@ -12,7 +12,7 @@
 //
 
 #import "LineChart2ViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "MyProject-Swift.h" //"ChartsDemo-Swift.h"
 
 @interface LineChart2ViewController () <ChartViewDelegate>
 

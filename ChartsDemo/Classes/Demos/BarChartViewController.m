@@ -12,8 +12,7 @@
 //
 
 #import "BarChartViewController.h"
-#import "ChartsDemo-Swift.h"
-
+#import "MyProject-Swift.h" //"ChartsDemo-Swift.h"
 @interface BarChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet BarChartView *chartView;

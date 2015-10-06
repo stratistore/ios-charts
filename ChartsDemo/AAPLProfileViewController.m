@@ -74,8 +74,9 @@ typedef NS_ENUM(NSInteger, AAPLProfileViewControllerTableViewIndex) {
     HKQuantityType *heightType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeight];
     HKQuantityType *weightType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass];
     HKQuantityType *stepCountType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
+    HKQuantityType *heartRateType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
 
-    return [NSSet setWithObjects:dietaryCalorieEnergyType, activeEnergyBurnType, basalEnergyBurnType, heightType, weightType, stepCountType, nil];
+    return [NSSet setWithObjects:dietaryCalorieEnergyType, activeEnergyBurnType, basalEnergyBurnType, heightType, weightType, stepCountType, heartRateType, nil];
 }
 
 // Returns the types of data that Fit wishes to read from HealthKit.
@@ -87,10 +88,18 @@ typedef NS_ENUM(NSInteger, AAPLProfileViewControllerTableViewIndex) {
     HKQuantityType *weightType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass];
     HKQuantityType *stepCountType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
 
+
+    //  [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceWalkingRunning],
+   HKQuantityType *heartRateType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
+    // [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierFlightsClimbed],
+
+
     HKCharacteristicType *birthdayType = [HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierDateOfBirth];
     HKCharacteristicType *biologicalSexType = [HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierBiologicalSex];
     
-    return [NSSet setWithObjects:dietaryCalorieEnergyType, activeEnergyBurnType, heightType, basalEnergyBurnType, weightType, birthdayType, biologicalSexType, stepCountType, nil];
+    return [NSSet setWithObjects:dietaryCalorieEnergyType, activeEnergyBurnType, heightType, basalEnergyBurnType, weightType, birthdayType, biologicalSexType, stepCountType, heartRateType, nil];
+
+    //   return [NSSet setWithObjects:dietaryCalorieEnergyType, activeEnergyBurnType, heightType, basalEnergyBurnType, weightType, birthdayType, biologicalSexType, stepCountType, nil];
 }
 
 #pragma mark - Reading HealthKit Data

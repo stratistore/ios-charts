@@ -10,8 +10,7 @@
 //
 
 #import "BubbleChartViewController.h"
-#import "ChartsDemo-Swift.h"
-
+#import "MyProject-Swift.h" //"ChartsDemo-Swift.h"
 @interface BubbleChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet BubbleChartView *chartView;

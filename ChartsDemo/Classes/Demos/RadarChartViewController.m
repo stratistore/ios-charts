@@ -12,7 +12,7 @@
 //
 
 #import "RadarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "MyProject-Swift.h" //"ChartsDemo-Swift.h"
 
 @interface RadarChartViewController () <ChartViewDelegate>
 
