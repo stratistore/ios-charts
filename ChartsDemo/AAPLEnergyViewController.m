@@ -168,8 +168,8 @@
 
                         [self.refreshControl endRefreshing]; //issue plot data
 
-                        //test
-                        NSEnergyFormatter *energyFormatter = [self energyFormatter];
+                        // Unused Energy Formatter
+                        // NSEnergyFormatter *energyFormatter = [self energyFormatter];
                         double tempCals = activeEnergyBurned/4184;
                         // NSNumber *calories2 = [activeEnergyBurned doubleValueForUnit:[HKUnit calorieUnit]];
                         NSLog (@"Active Burn / Steps = %.05f ",tempCals/stepsCounted);
@@ -204,7 +204,7 @@
 #pragma mark - HKStatisticsCollectionQuery -  (by)
 - (void)getStepCount{
     NSLog (@"----- getStepCount Entered ------");
-    NSDate *fromDate, *toDate, *startDate, *endDate, *anchorDate; // Whatever you need in your case
+    NSDate *fromDate, *toDate, *anchorDate; // Whatever you need in your case
     HKQuantityType *type = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
 
     // from below
@@ -357,7 +357,7 @@
          }];
     };
     [self.healthStore executeQuery:query];
-    self.getStepCollectionByDay;
+    [self getStepCollectionByDay];
 }
 
 //Plot the weekly step counts over the past 3 months
@@ -456,7 +456,7 @@
     };
     [self.healthStore executeQuery:query];
     // self.HRTest;
-    self.getWeightCollectionByDay;
+    [self getWeightCollectionByDay];
 }
 
 - (void) getWeightCollectionByDay
@@ -565,7 +565,7 @@
     };
     [self.healthStore executeQuery:query];
 
-     self.getWeightAverageMinMax;
+     [self getWeightAverageMinMax];
 
 }
 
@@ -599,25 +599,31 @@
          //      HKQuantity *sumCalQuantityForSource =  result.sumQuantityForSource(result.sources[0]);
 
            {
-             NSDate *startDate = result.startDate;
-             NSDate *endDate = result.endDate;
 
-             NSString *sources = [result.sources description];
-                        int i = 0;
+               // Get Sources & Dates from result
+               // NSDate *startDate = result.startDate;
+               // NSDate *endDate = result.endDate;
+               // NSString *sources = [result.sources description];
+
+               int i = 0;
               for (i=0; i< [result.sources count]; i++)
               {
                   // HKQuantity *sumCalQuantityForSource =  result.averageQuantity; //(result.sources[i]);
 
                  NSString *product = [result.sources[i].name description];
-                 NSString *bundleID = [result.sources[i].bundleIdentifier description];
+                 // ok NSString *bundleID = [result.sources[i].bundleIdentifier description];
                  // double value = [quantity doubleValueForUnit:[HKUnit kilocalorieUnit]]; // chg to pounds
                  double weightInKilogramsAvg = [weightAvg doubleValueForUnit:[HKUnit gramUnitWithMetricPrefix:HKMetricPrefixKilo]];
-                  double weightInKilogramsMin = [weightMin doubleValueForUnit:[HKUnit gramUnitWithMetricPrefix:HKMetricPrefixKilo]];
-                  double weightInKilogramsMax = [weightMax doubleValueForUnit:[HKUnit gramUnitWithMetricPrefix:HKMetricPrefixKilo]];
+                 double weightInKilogramsMin = [weightMin doubleValueForUnit:[HKUnit gramUnitWithMetricPrefix:HKMetricPrefixKilo]];
+                 double weightInKilogramsMax = [weightMax doubleValueForUnit:[HKUnit gramUnitWithMetricPrefix:HKMetricPrefixKilo]];
 
 
                  NSLog(@"WEIGHT TEST------ %@ \t%.f %@",product, weightInKilogramsAvg, [weightAvg description]  ); // ,bundleID);
-                 [self plotData:weightInKilogramsAvg forDate:result.startDate samplesPerSet:7 dataType:@"weightDataOld"];
+                 [self plotData:weightInKilogramsAvg forDate:result.startDate samplesPerSet:7 dataType:@"weightDataAvg"];
+                 [self plotData:weightInKilogramsMin forDate:result.startDate samplesPerSet:7 dataType:@"weightDataMin"];
+                 [self plotData:weightInKilogramsMax forDate:result.startDate samplesPerSet:7 dataType:@"weightDataMax"];
+                  // not sent to destination yet
+
 
              }
 
@@ -690,7 +696,7 @@
      }];
     [self.healthStore executeQuery:discreteQuery];
     
-    self.HRTest;
+    [self HRTest];
 }
 
 - (void) HRTest
@@ -805,7 +811,7 @@
 
 
 
-    self.queryHealthDataHeart;
+    [self queryHealthDataHeart];
 
 
 }
@@ -834,7 +840,7 @@
                        );
     }];
     [self.healthStore executeQuery:squery];
-    self.getRestingCalories;
+    [self getRestingCalories];
 
 }
 
@@ -917,7 +923,7 @@
          }];
     };
     [self.healthStore executeQuery:query];
-    self.getActiveCalories;
+    [self getActiveCalories];
 }
 
 - (void)getActiveCalories
@@ -998,7 +1004,7 @@
          }];
     };
     [self.healthStore executeQuery:query];
-    self.getConsumedCalories;
+    [self getConsumedCalories];
 }
 
 #pragma mark - Get Consumed Calories (1 Week)
@@ -1079,11 +1085,11 @@
          }];
     };
     [self.healthStore executeQuery:query];
-    self.getPlotData4;
+    [self getStepCount2];
 }
 
 #pragma mark - Get Step Count (by Day)
-- (void)getPlotData4
+- (void)getStepCount2
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *interval = [[NSDateComponents alloc] init];
