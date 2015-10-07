@@ -1193,6 +1193,14 @@
 
 }
 
+
+#pragma mark - Switch to Arrays Dictionaries or Objects
+// Story: 10-7-15 C
+// We need to pass data in objects
+// understanding of the charts were required first
+// now we can build the objet and pass it
+// step 1 ...
+
 #pragma mark - Pass Data
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showEnergyDetail"]) {
