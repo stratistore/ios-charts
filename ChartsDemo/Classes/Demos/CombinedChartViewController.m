@@ -52,6 +52,8 @@
     //NSString *myString = weightData;
     consumedCaloriesData = [consumedCaloriesData stringByReplacingOccurrencesOfString:@"consumedCaloriesData," withString:@""];
     restingCaloriesData = [restingCaloriesData stringByReplacingOccurrencesOfString:@"restingCaloriesData," withString:@""];
+    activeCaloriesData = [activeCaloriesData stringByReplacingOccurrencesOfString:@"activeCaloriesData," withString:@""];
+
 
     NSLog (@"weightData passed as - %@",self.weightData);
     NSLog (@"activeCaloriesData passed as - %@",self.activeCaloriesData);
@@ -99,11 +101,12 @@
     xAxis.labelPosition = XAxisLabelPositionBothSided;
     
     CombinedChartData *data = [[CombinedChartData alloc] initWithXVals:weekdays]; // months];//days];
+
     data.lineData = [self generateLineData];
     data.barData = [self generateBarData];
-    data.bubbleData = [self generateBubbleData];
+    //data.bubbleData = [self generateBubbleData];
     data.scatterData = [self generateScatterData];
-    //data.candleData = [self generateCandleData];
+    data.candleData = [self generateCandleData];
     
     _chartView.data = data;
 }
@@ -154,49 +157,25 @@
 - (LineChartData *)generateLineData
 {
     LineChartData *d = [[LineChartData alloc] init];
-    
     NSMutableArray *entries = [[NSMutableArray alloc] init];
-    
     for (int index = 0; index < ITEM_COUNT; index++)
     {
 
-//        // Do any additional setup after loading the view.
-//        AAPLEnergyViewController *svc = [self.tabBarController.viewControllers objectAtIndex:2];
-//
-//        svc.delegate = self;
-//
-//
-//
-
+        //        // Do any additional setup after loading the view.
+        //        AAPLEnergyViewController *svc = [self.tabBarController.viewControllers objectAtIndex:2];
+        //        svc.delegate = self;
 
         //Trim String Type from Passed Data
         NSString *myString = weightData;
         NSString * newString = [myString stringByReplacingOccurrencesOfString:@"weightData," withString:@""];
-
-
-
-
         NSString *stringWithBackslash = newString;
-
-        //  NSString *stringWithBackslash = @"273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,271,271,273,271,270,269,268,270,269,267,273,273,273,273,267,273,273,273,273,400";
-
-
         NSMutableArray *BarChartDataAsStrings = [NSMutableArray arrayWithArray:[ stringWithBackslash componentsSeparatedByString:@","]];
-
-
         NSString *tempSt = BarChartDataAsStrings[index];
         // self.title = tempSt;  CONVERT STRING TO DOUBLE THEN ADD TO VAL.
         double val = [tempSt doubleValue];//(double) 3.0;
-
-
-
-
-
-
         [entries addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:index]];
     }
-    
-    LineChartDataSet *set = [[LineChartDataSet alloc] initWithYVals:entries label:@"Line DataSet"];
+    LineChartDataSet *set = [[LineChartDataSet alloc] initWithYVals:entries label:@"Avg Weight"];
     [set setColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
     set.lineWidth = 2.5;
     [set setCircleColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
@@ -205,11 +184,8 @@
     set.drawValuesEnabled = YES;
     set.valueFont = [UIFont systemFontOfSize:10.f];
     set.valueTextColor = [UIColor colorWithRed:0/255.f green:0/255.f blue:0/255.f alpha:1.f];
-    
     set.axisDependency = AxisDependencyRight;
-    
     [d addDataSet:set];
-    
     return d;
 }
 
@@ -235,7 +211,7 @@
         [entries addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:index]];
     }
     
-    BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Bar DataSet"];
+    BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Consumed Cals"];
     [set setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
     set.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set.valueFont = [UIFont systemFontOfSize:10.f];
@@ -274,7 +250,7 @@
 
     }
     
-    ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithYVals:entries label:@"Scatter DataSet"];
+    ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithYVals:entries label:@"Resting Cals"];
     [set setColor:[UIColor greenColor]];
     set.scatterShapeSize = 17.5;
     [set setDrawValuesEnabled:YES];
@@ -288,15 +264,43 @@
 #pragma mark - [      ] CandleChartData
 - (CandleChartData *)generateCandleData
 {
+
+    // Data A Resting Cals
+    NSString *stringWithBackslash = restingCaloriesData;
+    NSMutableArray *ChartDataAsStrings = [NSMutableArray arrayWithArray:[ stringWithBackslash componentsSeparatedByString:@","]];
+    // Data B Active Cals
+    NSString *stringWithBackslash2 = activeCaloriesData;
+    NSMutableArray *ChartDataAsStrings2 = [NSMutableArray arrayWithArray:[ stringWithBackslash2 componentsSeparatedByString:@","]];
+
+
+
     CandleChartData *d = [[CandleChartData alloc] init];
     
     NSMutableArray *entries = [[NSMutableArray alloc] init];
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-        [entries addObject:[[CandleChartDataEntry alloc] initWithXIndex:index shadowH:170.0 shadowL:5.0 open:1963.3 close:4142.4]];
+        // Data A
+        NSString *tempSt = ChartDataAsStrings[index];
+        // self.title = tempSt;  CONVERT STRING TO DOUBLE THEN ADD TO VAL.
+        double val = [tempSt doubleValue];//(double) 3.0;
+                                          // Data A
+        NSString *tempSt2 = ChartDataAsStrings2[index];
+        // self.title = tempSt;  CONVERT STRING TO DOUBLE THEN ADD TO VAL.
+        double val2 = [tempSt2 doubleValue];//(double) 3.0;
+        double val3 = val + val2;
 
-        
+
+
+
+
+        [entries addObject:[[CandleChartDataEntry alloc] initWithXIndex:index shadowH:val shadowL:0.0 open:val close:val3]];
+        //  get an array of 4 values and enumerate with the line above
+        // shadowL = 0 Base of line
+        // shadowH = Basal/RestingEnergyBurned
+        // open = shadowL
+        // close = Basal + Active = TotalEnergyBurned
+
 
     }
     
@@ -305,7 +309,7 @@
     set.bodySpace = 0.3;
     set.valueFont = [UIFont systemFontOfSize:10.f];
     set.valueTextColor = [UIColor colorWithRed:0/255.f green:0/255.f blue:8/255.f alpha:1.f];
-    [set setDrawValuesEnabled:NO]; //NO
+    [set setDrawValuesEnabled:YES]; //NO
     set.axisDependency = AxisDependencyLeft;
     [d addDataSet:set];
     
@@ -321,8 +325,8 @@
 
 
     //Trim String Type from Passed Data
-    NSString *myString = consumedCaloriesData;
-    NSString * stringWithBackslash = [myString stringByReplacingOccurrencesOfString:@"consumedCaloriesData," withString:@""];
+    NSString *myString = activeCaloriesData;
+    NSString * stringWithBackslash = [myString stringByReplacingOccurrencesOfString:@"activeCaloriesData," withString:@""];
 
     // NSLog(@"%@ REMOVED TYPE",stringWithBackslash);
 
@@ -343,14 +347,14 @@
 
 
         // double rnd = arc4random_uniform(20) + 30.f;
-        [entries addObject:[[BubbleChartDataEntry alloc] initWithXIndex:index value:rnd size:30.0]];//rnd]];
+        [entries addObject:[[BubbleChartDataEntry alloc] initWithXIndex:index value:rnd size:rnd]];
     }
     
-    BubbleChartDataSet *set = [[BubbleChartDataSet alloc] initWithYVals:entries label:@"Bubble DataSet"];
+    BubbleChartDataSet *set = [[BubbleChartDataSet alloc] initWithYVals:entries label:@"Active Cal Bub"];
     //[set setColors:ChartColorTemplates.vordiplom];
     set.valueTextColor = UIColor.blackColor;
     set.valueFont = [UIFont systemFontOfSize:10.f];
-    [set setDrawValuesEnabled:NO];
+    [set setDrawValuesEnabled:YES];
     
     [bd addDataSet:set];
     
@@ -361,7 +365,9 @@
 
 - (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
-    NSLog(@"chartValueSelected");
+    NSLog(@"chartValueSelected %@ ",[entry description]);
+
+    // NSLog(@"chartValueSelected Data Set = %ld  %@  %@",dataSetIndex, [entry description],[chartView description]  );
 }
 
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
