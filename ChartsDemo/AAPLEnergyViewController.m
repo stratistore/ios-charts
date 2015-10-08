@@ -1198,7 +1198,7 @@
 // Story: 10-7-15 C
 // We need to pass data in objects
 // understanding of the charts were required first
-// now we can build the objet and pass it
+// now we can build the object and pass it
 // step 1 ...
 // Step 2 ...
 
